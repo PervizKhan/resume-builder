@@ -1,10 +1,4 @@
-/* app/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
+/* app/globals.css - Plain CSS only, no Tailwind */
 * {
   margin: 0;
   padding: 0;
@@ -12,95 +6,5 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-@layer utilities {
-  .border-l-3 {
-    border-left-width: 3px;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Print styles */
-@media print {
-  @page {
-    size: A4;
-    margin: 1cm;
-  }
-  
-  .no-print {
-    display: none !important;
-  }
-  
-  body {
-    background: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  
-  .resume-card {
-    box-shadow: none !important;
-    margin: 0 !important;
-  }
-  
-  .watermark-print {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    font-size: 8px;
-    color: rgba(0,0,0,0.2);
-    z-index: 9999;
-  }
-}
-
-/* Watermark for screen */
-.watermark-screen::after {
-  content: "Created with Resume Builder by Pervez Afridi";
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  font-size: 11px;
-  color: rgba(0,0,0,0.25);
-  font-family: monospace;
-  pointer-events: none;
-  z-index: 9999;
-  background: rgba(255,255,255,0.8);
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.3s ease-in;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }

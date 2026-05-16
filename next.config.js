@@ -1,15 +1,12 @@
-// next.config.js (Corrected)
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     unoptimized: true,
   },
   output: 'standalone',
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
+  // Disable CSS optimization that might look for Tailwind
+  experimental: {
+    optimizeCss: false,
   },
 };
 
