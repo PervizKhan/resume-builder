@@ -1,7 +1,7 @@
 // app/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface Experience {
   id: number;
@@ -28,8 +28,8 @@ interface Certificate {
 export default function ResumeBuilder() {
   const [isClient, setIsClient] = useState(false);
   const [showExampleModal, setShowExampleModal] = useState<string | null>(null);
+  const resumeRef = useRef<HTMLDivElement>(null);
   
-  // Form state
   const [fullName, setFullName] = useState('Sarah Johnson');
   const [jobTitle, setJobTitle] = useState('Marketing Manager');
   const [email, setEmail] = useState('sarah.j@marketingpro.com');
@@ -68,7 +68,6 @@ export default function ResumeBuilder() {
     setIsClient(true);
   }, []);
 
-  // Example data for each section
   const exampleData = {
     experience: {
       title: 'Senior Project Manager',
@@ -151,7 +150,7 @@ export default function ResumeBuilder() {
 
   return (
     <>
-      <style jsx global>{`
+      <style>{`
         * {
           margin: 0;
           padding: 0;
@@ -161,6 +160,7 @@ export default function ResumeBuilder() {
         body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
           background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+          min-height: 100vh;
         }
         
         /* Mobile First Responsive Design */
@@ -479,35 +479,42 @@ export default function ResumeBuilder() {
           flex: 2;
         }
         
+        /* CRITICAL FIX: CSS Grid for equal height columns */
         .resume-card {
           background: white;
           border-radius: 20px;
           box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
           overflow: hidden;
+          display: block;
         }
         
         .resume-two-column {
-          display: flex;
-          flex-direction: column;
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          align-items: stretch;
         }
         
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
           .resume-two-column {
-            flex-direction: row;
+            grid-template-columns: 1fr;
           }
         }
         
         .resume-left {
           background: linear-gradient(135deg, #0a1927 0%, #0f2b3d 100%);
           color: #e2e8f0;
-          padding: 20px;
+          padding: 25px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
         
-        @media (min-width: 768px) {
-          .resume-left {
-            flex: 1.2;
-            padding: 30px 20px;
-          }
+        .resume-right {
+          background: #f5f7fa;
+          padding: 25px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
         
         .resume-name {
@@ -577,18 +584,6 @@ export default function ResumeBuilder() {
           font-size: 0.6rem;
           display: inline-block;
           margin: 2px;
-        }
-        
-        .resume-right {
-          background: #f5f7fa;
-          padding: 20px;
-        }
-        
-        @media (min-width: 768px) {
-          .resume-right {
-            flex: 2;
-            padding: 30px;
-          }
         }
         
         .right-section {
@@ -722,78 +717,147 @@ export default function ResumeBuilder() {
           }
         }
         
-        /* Print Styles - Ensure One Page */
+        /* PERFECT PRINT STYLES - Single Page, Equal Columns */
         @media print {
-          body {
-            background: white;
-            padding: 0;
+          /* Reset everything */
+          * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
           }
           
-          .no-print {
+          html, body {
+            height: auto;
+            width: 100%;
+            background: white;
+          }
+          
+          /* Hide non-printable elements */
+          .no-print,
+          .welcome-banner,
+          .header,
+          .form-panel,
+          .modal-overlay,
+          .watermark::after {
             display: none !important;
           }
           
-          .watermark::after {
-            content: "Created with Resume Builder by Pervez Khan Afridi";
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            font-size: 6px;
-            opacity: 0.3;
-            background: transparent;
+          /* Make preview fill the printable area */
+          .preview-panel {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
           }
           
           .resume-card {
-            box-shadow: none;
-            border-radius: 0;
-            max-width: 100%;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            width: 100% !important;
+            margin: 0 !important;
           }
           
+          /* CSS Grid for equal height columns in print */
           .resume-two-column {
-            display: flex;
-            flex-direction: row;
-            break-inside: avoid;
-            page-break-inside: avoid;
-          }
-          
-          .resume-left, .resume-right {
-            break-inside: avoid;
-            page-break-inside: avoid;
-          }
-          
-          @page {
-            size: A4;
-            margin: 0.5cm;
-          }
-          
-          .resume-right {
-            background: #f5f7fa !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            display: grid !important;
+            grid-template-columns: 1fr 2fr !important;
+            align-items: stretch !important;
+            gap: 0 !important;
+            width: 100% !important;
           }
           
           .resume-left {
             background: #0a1927 !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            color: #e2e8f0 !important;
+            padding: 20px !important;
+            height: auto !important;
+            min-height: 100% !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
-          /* Ensure content fits on one page */
-          .resume-left, .resume-right {
-            padding: 15px !important;
+          .resume-right {
+            background: #f5f7fa !important;
+            padding: 20px !important;
+            height: auto !important;
+            min-height: 100% !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           
-          .left-section {
-            margin-bottom: 12px !important;
+          /* Typography for print */
+          .resume-name {
+            font-size: 18pt !important;
+            margin-bottom: 8pt !important;
           }
           
-          .right-section {
-            margin-bottom: 12px !important;
+          .resume-title {
+            font-size: 11pt !important;
+            margin-bottom: 16pt !important;
+          }
+          
+          .left-section h3, .right-section h2 {
+            font-size: 10pt !important;
+            margin-bottom: 8pt !important;
+          }
+          
+          .contact-item, .summary-text, .exp-desc {
+            font-size: 9pt !important;
+            line-height: 1.4 !important;
+          }
+          
+          .exp-title {
+            font-size: 10pt !important;
+          }
+          
+          .exp-meta {
+            font-size: 8pt !important;
+          }
+          
+          .skill-tag {
+            font-size: 8pt !important;
+            padding: 2px 6px !important;
+          }
+          
+          /* Spacing adjustments */
+          .left-section, .right-section {
+            margin-bottom: 12pt !important;
           }
           
           .exp-item, .edu-item, .cert-item {
-            margin-bottom: 8px !important;
+            margin-bottom: 8pt !important;
+          }
+          
+          /* Page settings - Single page only */
+          @page {
+            size: A4;
+            margin: 0.8cm;
+          }
+          
+          /* Prevent page breaks inside columns */
+          .resume-left, .resume-right {
+            break-inside: avoid;
+            page-break-inside: avoid;
+          }
+          
+          /* Ensure no extra pages */
+          body {
+            height: auto;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .builder-layout {
+            flex-direction: column;
+          }
+          .form-card {
+            position: static;
+            max-height: none;
+          }
+          .resume-two-column {
+            grid-template-columns: 1fr;
+          }
+          .title-section h1 {
+            font-size: 1.5rem;
           }
         }
       `}</style>
@@ -802,7 +866,7 @@ export default function ResumeBuilder() {
         <div className="app-container">
           <div className="welcome-banner no-print">
             <h2>✨ Welcome to Resume Builder by Pervez Khan Afridi ✨</h2>
-            <p>Create your professional resume | Mobile friendly | Print ready</p>
+            <p>Create your professional resume | Mobile friendly | Prints perfectly on one page</p>
           </div>
           
           <div className="header no-print">
@@ -903,7 +967,7 @@ export default function ResumeBuilder() {
             </div>
 
             <div className="preview-panel">
-              <div className="resume-card">
+              <div className="resume-card" ref={resumeRef}>
                 <div className="resume-two-column">
                   <div className="resume-left">
                     <div className="resume-name">{fullName || 'Your Name'}</div>
