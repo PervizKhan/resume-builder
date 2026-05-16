@@ -699,11 +699,11 @@ export default function ResumeBuilder() {
           bottom: 8px;
           right: 8px;
           font-size: 7px;
-          color: rgba(0,0,0,0.25);
+          color: rgb(255, 255, 255);
           font-family: monospace;
           pointer-events: none;
           z-index: 9999;
-          background: rgba(255,255,255,0.85);
+          background: rgba(78, 3, 101, 0.85);
           padding: 3px 8px;
           border-radius: 16px;
         }
@@ -857,7 +857,7 @@ export default function ResumeBuilder() {
             grid-template-columns: 1fr;
           }
           .title-section h1 {
-            font-size: 1.5rem;
+            font-size: 1.0rem;
           }
         }
       `}</style>
