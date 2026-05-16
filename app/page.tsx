@@ -1,8 +1,7 @@
-// app/page.tsx - Main Resume Builder Component
+// app/page.tsx - Main Resume Builder Component (Corrected)
 'use client';
 
-import { useState, useEffect } from 'react';
-import Head from 'next/head';
+import { useState } from 'react';
 
 interface Experience {
   id: number;
@@ -60,13 +59,12 @@ export default function ResumeBuilder() {
     contact: true
   });
 
-  // Add new items
   const addExperience = () => {
     setExperiences([...experiences, { id: Date.now(), title: 'New Role', company: 'Company Name', period: '2024 - Present', description: 'Describe responsibilities' }]);
   };
   
   const addEducation = () => {
-    setEducations([...educations, { id: Date.now(), degree: 'Master\'s Degree', institution: 'University', year: '2024' }]);
+    setEducations([...educations, { id: Date.now(), degree: "Master's Degree", institution: 'University', year: '2024' }]);
   };
   
   const addCertificate = () => {
@@ -105,66 +103,90 @@ export default function ResumeBuilder() {
 
   return (
     <>
-      <Head>
-        <title>Resume Builder | Professional CV Creator</title>
-        <meta name="description" content="Create professional resumes instantly" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-      </Head>
-      
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        {/* Watermark overlay for print protection */}
-        <style jsx global>{`
-          @media print {
-            .no-print {
-              display: none !important;
-            }
-            .watermark-overlay {
-              position: fixed;
-              bottom: 20px;
-              right: 20px;
-              opacity: 0.3;
-              font-size: 12px;
-              color: #000;
-              z-index: 9999;
-              background: transparent;
-              pointer-events: none;
-            }
-            body {
-              -webkit-print-color-adjust: exact;
-              print-color-adjust: exact;
-            }
+      <style jsx global>{`
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: 'Inter', sans-serif;
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        @media print {
+          .no-print {
+            display: none !important;
           }
-          .watermark-bg {
-            position: relative;
-          }
-          .watermark-bg::after {
-            content: "Created with Resume Builder by Pervez Afridi";
+          .watermark {
             position: fixed;
-            bottom: 15px;
-            right: 15px;
-            font-size: 11px;
-            color: rgba(0,0,0,0.25);
-            font-family: monospace;
-            pointer-events: none;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 10px;
+            color: #000;
             z-index: 9999;
-            background: rgba(255,255,255,0.7);
-            padding: 4px 8px;
-            border-radius: 4px;
+            pointer-events: none;
           }
-        `}</style>
+          body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+          }
+          .resume-card {
+            box-shadow: none !important;
+          }
+        }
+        
+        .watermark::after {
+          content: "Created with Resume Builder by Pervez Afridi";
+          position: fixed;
+          bottom: 15px;
+          right: 15px;
+          font-size: 11px;
+          color: rgba(0,0,0,0.3);
+          font-family: monospace;
+          pointer-events: none;
+          z-index: 9999;
+          background: rgba(255,255,255,0.8);
+          padding: 4px 8px;
+          border-radius: 4px;
+        }
+        
+        .border-l-3 {
+          border-left-width: 3px;
+        }
+        
+        ::-webkit-scrollbar {
+          width: 5px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 10px;
+        }
+      `}</style>
 
-        <div className="watermark-bg">
+      <div className="watermark">
+        <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
           <div className="max-w-[1400px] mx-auto p-6 md:p-8">
             {/* Header */}
             <div className="no-print mb-6 flex justify-between items-center flex-wrap gap-3">
               <div>
-                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                  <i className="fas fa-file-alt text-yellow-500 mr-3"></i>
+                <h1 className="text-4xl font-extrabold text-white">
+                  <i className="fas fa-file-alt text-yellow-400 mr-3"></i>
                   Professional Resume Builder
                 </h1>
-                <p className="text-gray-600 mt-1">Create and print professional resumes instantly</p>
+                <p className="text-white text-opacity-90 mt-1">Create and print professional resumes instantly</p>
               </div>
-              <button onClick={handlePrint} className="bg-gray-800 hover:bg-yellow-600 text-white px-6 py-3 rounded-full shadow-lg transition-all flex items-center gap-2 font-semibold">
+              <button onClick={handlePrint} className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-full shadow-lg transition-all flex items-center gap-2 font-semibold">
                 <i className="fas fa-print"></i> Print / Save PDF
               </button>
             </div>
@@ -175,13 +197,13 @@ export default function ResumeBuilder() {
                 <div className="bg-white rounded-2xl shadow-xl p-6 sticky top-6 border border-gray-200 max-h-[85vh] overflow-y-auto">
                   <div className="flex items-center gap-2 border-b pb-3 mb-4">
                     <i className="fas fa-user-edit text-yellow-500 text-2xl"></i>
-                    <h2 className="font-bold text-2xl">Employee Details</h2>
+                    <h2 className="font-bold text-2xl text-gray-800">Employee Details</h2>
                   </div>
 
                   {/* Basic Info */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-                    <div><label className="text-xs font-semibold uppercase text-gray-500">Full name</label><input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full border rounded-xl p-2 mt-1 focus:ring-2 focus:ring-yellow-400" /></div>
-                    <div><label className="text-xs font-semibold uppercase text-gray-500">Job Title</label><input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className="w-full border rounded-xl p-2 mt-1" /></div>
+                    <div><label className="text-xs font-semibold uppercase text-gray-500">Full name</label><input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} className="w-full border rounded-xl p-2 mt-1 focus:ring-2 focus:ring-yellow-400 focus:border-transparent" /></div>
+                    <div><label className="text-xs font-semibold uppercase text-gray-500">Job Title</label><input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} className="w-full border rounded-xl p-2 mt-1 focus:ring-2 focus:ring-yellow-400" /></div>
                     <div><label className="text-xs font-semibold uppercase text-gray-500">Email</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border rounded-xl p-2 mt-1" /></div>
                     <div><label className="text-xs font-semibold uppercase text-gray-500">Phone</label><input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border rounded-xl p-2 mt-1" /></div>
                     <div><label className="text-xs font-semibold uppercase text-gray-500">Location</label><input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full border rounded-xl p-2 mt-1" /></div>
@@ -198,7 +220,7 @@ export default function ResumeBuilder() {
                       {Object.entries(toggles).map(([key, value]) => (
                         <label key={key} className="flex items-center gap-2 cursor-pointer">
                           <input type="checkbox" checked={value} onChange={(e) => setToggles({...toggles, [key]: e.target.checked})} className="w-4 h-4" />
-                          <span><i className={`fas fa-${key === 'summary' ? 'user-circle' : key === 'experience' ? 'briefcase' : key === 'education' ? 'graduation-cap' : key === 'certificates' ? 'certificate' : key === 'skills' ? 'code' : 'address-card'}`}></i> {key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                          <span className="text-sm"><i className={`fas fa-${key === 'summary' ? 'user-circle' : key === 'experience' ? 'briefcase' : key === 'education' ? 'graduation-cap' : key === 'certificates' ? 'certificate' : key === 'skills' ? 'code' : 'address-card'}`}></i> {key.charAt(0).toUpperCase() + key.slice(1)}</span>
                         </label>
                       ))}
                     </div>
@@ -264,16 +286,16 @@ export default function ResumeBuilder() {
                       </div>
                       {toggles.contact && (
                         <div className="mb-5">
-                          <h3 className="text-xs font-semibold uppercase tracking-wider border-l-3 border-yellow-400 pl-2 mb-2">Contact</h3>
-                          <div className="space-y-1 text-sm"><i className="fas fa-envelope w-4 mr-2 text-yellow-400"></i> {email}</div>
+                          <h3 className="text-xs font-semibold uppercase tracking-wider pl-2 mb-2" style={{ borderLeft: '3px solid #facc15' }}>Contact</h3>
+                          <div className="space-y-1 text-sm break-words"><i className="fas fa-envelope w-4 mr-2 text-yellow-400"></i> {email}</div>
                           <div className="space-y-1 text-sm mt-1"><i className="fas fa-phone-alt w-4 mr-2 text-yellow-400"></i> {phone}</div>
                           <div className="space-y-1 text-sm mt-1"><i className="fas fa-map-marker-alt w-4 mr-2 text-yellow-400"></i> {address}</div>
-                          <div className="space-y-1 text-sm mt-1"><i className="fas fa-link w-4 mr-2 text-yellow-400"></i> {website}</div>
+                          <div className="space-y-1 text-sm mt-1 break-words"><i className="fas fa-link w-4 mr-2 text-yellow-400"></i> {website}</div>
                         </div>
                       )}
                       {toggles.skills && (
                         <div>
-                          <h3 className="text-xs font-semibold uppercase tracking-wider border-l-3 border-yellow-400 pl-2 mb-2">Core Skills</h3>
+                          <h3 className="text-xs font-semibold uppercase tracking-wider pl-2 mb-2" style={{ borderLeft: '3px solid #facc15' }}>Core Skills</h3>
                           <div className="flex flex-wrap gap-1">
                             {skillsArray.map((skill, idx) => (
                               <span key={idx} className="bg-gray-700 text-white text-xs px-2 py-1 rounded-full">{skill}</span>
@@ -287,13 +309,13 @@ export default function ResumeBuilder() {
                     <div className="bg-white p-6 md:w-2/3">
                       {toggles.summary && (
                         <div className="mb-5">
-                          <h2 className="font-bold text-gray-800 border-b-2 border-yellow-400 inline-block pb-1 text-md">PROFILE</h2>
+                          <h2 className="font-bold text-gray-800 inline-block pb-1 text-md" style={{ borderBottom: '3px solid #facc15' }}>PROFILE</h2>
                           <p className="text-gray-700 text-sm mt-2 leading-relaxed">{summary}</p>
                         </div>
                       )}
                       {toggles.experience && (
                         <div className="mb-5">
-                          <h2 className="font-bold text-gray-800 border-b-2 border-yellow-400 inline-block pb-1 text-md">WORK EXPERIENCE</h2>
+                          <h2 className="font-bold text-gray-800 inline-block pb-1 text-md" style={{ borderBottom: '3px solid #facc15' }}>WORK EXPERIENCE</h2>
                           <div className="mt-2 space-y-3">
                             {experiences.map(exp => (
                               <div key={exp.id} className="mb-2">
@@ -307,7 +329,7 @@ export default function ResumeBuilder() {
                       )}
                       {toggles.education && (
                         <div className="mb-5">
-                          <h2 className="font-bold text-gray-800 border-b-2 border-yellow-400 inline-block pb-1 text-md">EDUCATION</h2>
+                          <h2 className="font-bold text-gray-800 inline-block pb-1 text-md" style={{ borderBottom: '3px solid #facc15' }}>EDUCATION</h2>
                           <div className="mt-2 space-y-2">
                             {educations.map(edu => (
                               <div key={edu.id} className="mb-2">
@@ -320,7 +342,7 @@ export default function ResumeBuilder() {
                       )}
                       {toggles.certificates && (
                         <div>
-                          <h2 className="font-bold text-gray-800 border-b-2 border-yellow-400 inline-block pb-1 text-md">CERTIFICATIONS</h2>
+                          <h2 className="font-bold text-gray-800 inline-block pb-1 text-md" style={{ borderBottom: '3px solid #facc15' }}>CERTIFICATIONS</h2>
                           <div className="mt-2 space-y-2">
                             {certificates.map(cert => (
                               <div key={cert.id} className="mb-2">
